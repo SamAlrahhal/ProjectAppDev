@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //yuppy
 
         setSupportActionBar(binding.toolbar);
 
@@ -32,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+/*        binding.fab.setonclicklistener(new view.onclicklistener() {
+            @override
+            public void onclick(view view) {
+                snackbar.make(view, "replace with your own action", snackbar.length_long)
+                        .setaction("action", null).show();
             }
-        });
+        }); */
     }
 
     @Override
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.home) {
             return true;
         }
 
