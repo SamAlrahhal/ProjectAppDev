@@ -3,6 +3,7 @@ package com.example.project;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavHostController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.addPerson) {
+            //go to add person page using nav controller
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
+            if (navController.getCurrentDestination().getId() == R.id.FirstFragment) {
+                navController.navigate(R.id.action_FirstFragment_to_addPersonFragment2);
+            } else if (navController.getCurrentDestination().getId() == R.id.SecondFragment) {
+                navController.navigate(R.id.action_SecondFragment_to_addPersonFragment2);
+
+            }
+
+
             return true;
         }
 
