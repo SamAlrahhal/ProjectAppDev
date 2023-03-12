@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
+            //go to home page
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
             return true;
         }
 
