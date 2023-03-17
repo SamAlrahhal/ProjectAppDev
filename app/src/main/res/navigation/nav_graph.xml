@@ -14,7 +14,7 @@
         <action
                 android:id="@+id/action_FirstFragment_to_SecondFragment"
                 app:destination="@id/SecondFragment"/>
-        <action android:id="@+id/action_FirstFragment_to_addPersonFragment2" app:destination="@id/addPersonFragment2"/>
+        <action android:id="@+id/action_FirstFragment_to_addPerson2" app:destination="@id/addPerson2"/>
     </fragment>
     <fragment
             android:id="@+id/SecondFragment"
@@ -25,8 +25,8 @@
         <action
                 android:id="@+id/action_SecondFragment_to_FirstFragment"
                 app:destination="@id/FirstFragment"/>
-        <action android:id="@+id/action_SecondFragment_to_addPersonFragment2" app:destination="@id/addPersonFragment2"/>
+        <action android:id="@+id/action_SecondFragment_to_addPerson2" app:destination="@id/addPerson2"/>
     </fragment>
-    <fragment android:id="@+id/addPersonFragment2" android:name="com.example.project.AddPersonFragment"
-              android:label="add_person_fragment" tools:layout="@layout/add_person_fragment"/>
+    <fragment android:id="@+id/addPerson2" android:name="com.example.project.AddPerson"
+              android:label="fragment_add_person" tools:layout="@layout/fragment_add_person"/>
 </navigation>

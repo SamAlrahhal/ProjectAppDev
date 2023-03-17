@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
             if (navController.getCurrentDestination().getId() == R.id.FirstFragment) {
-                navController.navigate(R.id.action_FirstFragment_to_addPersonFragment2);
+                navController.navigate(R.id.action_FirstFragment_to_addPerson2);
             } else if (navController.getCurrentDestination().getId() == R.id.SecondFragment) {
-                navController.navigate(R.id.action_SecondFragment_to_addPersonFragment2);
+                navController.navigate(R.id.action_SecondFragment_to_addPerson2);
 
             }
 

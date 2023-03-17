@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddPersonFragment#newInstance} factory method to
+ * Use the {@link AddPerson#newInstance} factory method to
  * create an instance of this fragment.
+ *
  */
-public class AddPersonFragment extends Fragment {
+public class AddPerson extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,26 +23,26 @@ public class AddPersonFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AddPersonFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AddPersonFragment.
+     * @return A new instance of fragment AddPerson.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddPersonFragment newInstance(String param1, String param2) {
-        AddPersonFragment fragment = new AddPersonFragment();
+    public static AddPerson newInstance(String param1, String param2) {
+        AddPerson fragment = new AddPerson();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public AddPerson() {
+        // Required empty public constructor
     }
 
     @Override
@@ -57,6 +58,6 @@ public class AddPersonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.add_person_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_add_person, container, false);
     }
 }
