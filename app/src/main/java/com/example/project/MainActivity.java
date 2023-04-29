@@ -77,10 +77,26 @@ public class MainActivity extends AppCompatActivity {
             } else if (navController.getCurrentDestination().getId() == R.id.SecondFragment) {
                 navController.navigate(R.id.action_SecondFragment_to_addPerson2);
 
+            }else if(navController.getCurrentDestination().getId() == R.id.showAll2){
+                navController.navigate(R.id.action_showAll2_to_addPerson2);
             }
 
 
             return true;
+        }
+
+        //make an option for the ShowAll button
+        if (id == R.id.showAll) {
+            //go to show all page using nav controller
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
+            if (navController.getCurrentDestination().getId() == R.id.FirstFragment) {
+                navController.navigate(R.id.action_FirstFragment_to_showAll2);
+            } else if (navController.getCurrentDestination().getId() == R.id.SecondFragment) {
+                navController.navigate(R.id.action_SecondFragment_to_showAll2);
+            }else if(navController.getCurrentDestination().getId() == R.id.addPerson2){
+                navController.navigate(R.id.action_addPerson2_to_showAll2);
+            }
         }
 
         return super.onOptionsItemSelected(item);
