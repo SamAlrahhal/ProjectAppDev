@@ -22,6 +22,7 @@ public class AddPerson extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_person, container, false);
 
+
         databaseHelper = new DatabaseHelper(getActivity());
         editTextName = view.findViewById(R.id.editTextName);
         editTextBirthdate = view.findViewById(R.id.editTextBirthdate);
@@ -50,4 +51,6 @@ public class AddPerson extends Fragment {
 
         return view;
     }
+
 }
+
