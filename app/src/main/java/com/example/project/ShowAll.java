@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -9,27 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.project.placeholder.PlaceholderContent;
 
-/**
- * A fragment representing a list of Items.
- */
+import java.util.List;
+
 public class ShowAll extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
+    private MyItemRecyclerViewAdapter mAdapter;
+    private RecyclerView recyclerView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ShowAll() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static ShowAll newInstance(int columnCount) {
         ShowAll fragment = new ShowAll();
         Bundle args = new Bundle();
@@ -47,22 +40,28 @@ public class ShowAll extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_show_all_list, container, false);
+        Context context = view.getContext();
+        recyclerView = view.findViewById(R.id.list);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
+
+        updateAdapter();
+
         return view;
+    }
+
+    public void updateAdapter() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(requireContext());
+        List<Person> personList = databaseHelper.getAllPersons();
+        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(personList));
     }
 }

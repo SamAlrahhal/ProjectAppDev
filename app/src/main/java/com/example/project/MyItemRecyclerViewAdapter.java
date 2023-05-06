@@ -5,36 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.example.project.placeholder.PlaceholderContent.PlaceholderItem;
-import com.example.project.databinding.FragmentShowAllBinding;
-
+import com.example.project.databinding.FragmentShowAllListBinding;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<Person> mValues;
 
-    public MyItemRecyclerViewAdapter(List<PlaceholderItem> items) {
+    public MyItemRecyclerViewAdapter(List<Person> items) {
         mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentShowAllBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
+        return new ViewHolder(FragmentShowAllListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        Person person = mValues.get(position);
+        holder.mNameView.setText(person.getName());
+        holder.mBirthdateView.setText(person.getBirthdate());
+        holder.mPhoneNumberView.setText(person.getPhoneNumber());
     }
 
     @Override
@@ -43,19 +35,20 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
+        public final TextView mNameView;
+        public final TextView mBirthdateView;
+        public final TextView mPhoneNumberView;
 
-        public ViewHolder(FragmentShowAllBinding binding) {
+        public ViewHolder(FragmentShowAllListBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            mNameView = binding.textViewName;
+            mBirthdateView = binding.textViewBirthdate;
+            mPhoneNumberView = binding.textViewPhoneNumber;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mNameView.getText() + "', '" + mBirthdateView.getText() + "', '" + mPhoneNumberView.getText() + "'";
         }
     }
 }

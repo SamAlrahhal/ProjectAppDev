@@ -1,5 +1,7 @@
 package com.example.project.placeholder;
 
+import com.example.project.Person;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +50,14 @@ public class PlaceholderContent {
             builder.append("\nMore details information here.");
         }
         return builder.toString();
+    }
+
+    public static List<Person> getPersonList() {
+        List<Person> personList = new ArrayList<>();
+        for (PlaceholderItem item : ITEMS) {
+            personList.add(new Person(item.content, item.details, item.id));
+        }
+        return personList;
     }
 
     /**
