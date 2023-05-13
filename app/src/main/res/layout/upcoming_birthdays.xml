@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:padding="16dp">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+    <!-- Today's birthdays -->
     <TextView
-            android:id="@+id/section_title"
+            android:id="@+id/today_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Section Title"
+            android:text="Today"
             android:textSize="18sp"
             android:textStyle="bold" />
 
     <ListView
-            android:id="@+id/birthday_list"
+            android:id="@+id/today_birthday_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <!-- This week's birthdays -->
+    <TextView
+            android:id="@+id/week_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This Week"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    <ListView
+            android:id="@+id/week_birthday_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <!-- This month's birthdays -->
+    <TextView
+            android:id="@+id/month_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This Month"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    <ListView
+            android:id="@+id/month_birthday_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
 </LinearLayout>
+
+
+
