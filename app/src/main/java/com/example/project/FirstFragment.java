@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,15 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.project.databinding.FragmentFirstBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class FirstFragment extends Fragment {
@@ -49,6 +53,7 @@ public class FirstFragment extends Fragment {
     public void getUpcomingBirthdays() {
         // Get current date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String currentDate = sdf.format(new Date());
 
         // Get current date + 7 days (for "This week" section)
@@ -67,55 +72,71 @@ public class FirstFragment extends Fragment {
                 " WHERE strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") = strftime('%m-%d', '" + currentDate + "')";
         Cursor cursor = database.rawQuery(query, null);
 
-        // Fetch data from cursor and update the appropriate ListView
-        ArrayList<String> todayBirthdays = new ArrayList<>();
+
+
+        ArrayList<Person> todayBirthdays = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
-            todayBirthdays.add(name);
+            String birthdate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BIRTHDATE));
+            String phoneNumber = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PHONE_NUMBER));
+            todayBirthdays.add(new Person(name, birthdate, phoneNumber));
         }
         cursor.close();
+
+        RecyclerView todayRecyclerView = binding.todayBirthdays.birthdayList;
+        todayRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        PersonAdapter todayAdapter = new PersonAdapter(todayBirthdays);
+        todayRecyclerView.setAdapter(todayAdapter);
+
+
 
         // Query to get this week's birthdays
         query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
                 " WHERE strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") > strftime('%m-%d', '" + currentDate + "') AND strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") <= strftime('%m-%d', '" + currentDatePlusWeek + "')";
         cursor = database.rawQuery(query, null);
 
-        ArrayList<String> weekBirthdays = new ArrayList<>();
+        ArrayList<Person> weekBirthdays = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
-            weekBirthdays.add(name);
+            String birthdate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BIRTHDATE));
+            String phoneNumber = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PHONE_NUMBER));
+            weekBirthdays.add(new Person(name, birthdate, phoneNumber));
         }
         cursor.close();
+        RecyclerView weekRecyclerView = binding.weekBirthdays.birthdayList;
+        weekRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        PersonAdapter weekAdapter = new PersonAdapter(weekBirthdays);
+        weekRecyclerView.setAdapter(weekAdapter);
+
+
 
 
 
         // Query to get this month's birthdays
         query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
-                " WHERE strftime('%m', " + DatabaseHelper.COLUMN_BIRTHDATE + ") = '" + currentMonth + "'";
+                " WHERE strftime('%m', " + DatabaseHelper.COLUMN_BIRTHDATE + ") = '" + currentMonth + "' AND " +
+                "(strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") > strftime('%m-%d', '" + currentDatePlusWeek + "') OR " +
+                "strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") < strftime('%m-%d', '" + currentDate + "'))";
         cursor = database.rawQuery(query, null);
 
-        ArrayList<String> monthBirthdays = new ArrayList<>();
+        ArrayList<Person> monthBirthdays = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
-            monthBirthdays.add(name);
+            String birthdate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BIRTHDATE));
+            String phoneNumber = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PHONE_NUMBER));
+            monthBirthdays.add(new Person(name, birthdate, phoneNumber));
         }
         cursor.close();
+        RecyclerView monthRecyclerView = binding.monthBirthdays.birthdayList;
+        monthRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        PersonAdapter monthAdapter = new PersonAdapter(monthBirthdays);
+        monthRecyclerView.setAdapter(monthAdapter);
 
 
-        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, monthBirthdays);
-        ListView monthListView = binding.monthBirthdays.monthBirthdayList;
-        monthListView.setAdapter(monthAdapter);
-
-/*
-        ArrayAdapter<String> weekAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, weekBirthdays);
-        ListView weekListView = binding.weekBirthdays.weekBirthdayList;
-        weekListView.setAdapter(weekAdapter);
-
-        ArrayAdapter<String> todayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, todayBirthdays);
-        ListView todayListView = binding.weekBirthdays.weekBirthdayList;
-        todayListView.setAdapter(todayAdapter);
 
 
- */
+
+
+
     }
 }
