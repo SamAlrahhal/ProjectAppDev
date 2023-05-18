@@ -53,7 +53,7 @@ public class FirstFragment extends Fragment {
     public void getUpcomingBirthdays() {
         // Get current date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
         String currentDate = sdf.format(new Date());
 
         // Get current date + 7 days (for "This week" section)
@@ -107,6 +107,8 @@ public class FirstFragment extends Fragment {
         weekRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         PersonAdapter weekAdapter = new PersonAdapter(weekBirthdays);
         weekRecyclerView.setAdapter(weekAdapter);
+        
+
 
 
 
@@ -131,6 +133,8 @@ public class FirstFragment extends Fragment {
         monthRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         PersonAdapter monthAdapter = new PersonAdapter(monthBirthdays);
         monthRecyclerView.setAdapter(monthAdapter);
+
+
 
 
 

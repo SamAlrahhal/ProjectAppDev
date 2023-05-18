@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".FirstFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-
-    <include
-            android:id="@+id/today_birthdays"
-            layout="@layout/upcoming_birthdays"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+            android:text="Birthdays today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textToday"/>
 
     <include
-            android:id="@+id/week_birthdays"
+            android:id="@+id/todayBirthdays"
             layout="@layout/upcoming_birthdays"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/today_birthdays" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    <TextView
+            android:text="This week's birthdays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textWeek"/>
 
     <include
-            android:id="@+id/month_birthdays"
+            android:id="@+id/weekBirthdays"
             layout="@layout/upcoming_birthdays"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/week_birthdays" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    <TextView
+            android:text="Birthdays later this month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textMonth"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+            android:id="@+id/monthBirthdays"
+            layout="@layout/upcoming_birthdays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+</LinearLayout>
