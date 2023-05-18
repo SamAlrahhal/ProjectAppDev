@@ -2,32 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:padding="16dp">
 
     <TextView
-            android:text="Birthdays today"
+            android:id="@+id/textToday"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textToday"/>
+            android:layout_height="wrap_content"
+            android:text="Birthdays today"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:paddingBottom="8dp" />
 
     <include
             android:id="@+id/todayBirthdays"
             layout="@layout/upcoming_birthdays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     <TextView
-            android:text="This week's birthdays"
+            android:id="@+id/textWeek"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textWeek"/>
+            android:layout_height="wrap_content"
+            android:text="This week's birthdays"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
 
     <include
             android:id="@+id/weekBirthdays"
             layout="@layout/upcoming_birthdays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     <TextView
-            android:text="Birthdays later this month"
+            android:id="@+id/textMonth"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textMonth"/>
+            android:layout_height="wrap_content"
+            android:text="Birthdays later this month"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
 
     <include
             android:id="@+id/monthBirthdays"
