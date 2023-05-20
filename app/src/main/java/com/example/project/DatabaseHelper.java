@@ -106,5 +106,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updatePerson(int id, String name, String birthdate, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME, name);
+        contentValues.put(COLUMN_BIRTHDATE, birthdate);
+        contentValues.put(COLUMN_PHONE_NUMBER, phoneNumber);
+        return db.update(TABLE_NAME, contentValues, "ID = ?", new String[]{ String.valueOf(id) }) > 0;
+    }
+
+    public boolean deletePerson(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "ID = ?", new String[]{ String.valueOf(id) }) > 0;
+    }
+
 
 }
