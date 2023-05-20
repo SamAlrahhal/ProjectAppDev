@@ -10,6 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 
 public class AddPerson extends Fragment {
 
@@ -36,6 +39,10 @@ public class AddPerson extends Fragment {
 
             if (name.isEmpty() || birthdate.isEmpty() || phoneNumber.isEmpty()) {
                 Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+            } else if (!isValidDate(birthdate)) {
+                Toast.makeText(getActivity(), "Invalid birthdate. Format should be yyyy-MM-dd", Toast.LENGTH_SHORT).show();
+            } else if (!isNumeric(phoneNumber)) {
+                Toast.makeText(getActivity(), "Phone number can only contain digits", Toast.LENGTH_SHORT).show();
             } else {
                 boolean result = databaseHelper.addPerson(name, birthdate, phoneNumber);
                 if (result) {
@@ -50,6 +57,29 @@ public class AddPerson extends Fragment {
         });
 
         return view;
+    }
+
+    private boolean isValidDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
 }
