@@ -49,11 +49,20 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int personId = (int) v.getTag(); // Get the id from the tag
+                    // Get the position of the clicked item
+                    int position = getAdapterPosition();
 
+                    // Get the Person at the clicked position
+                    Person person = mValues.get(position);
+
+                    // Create an Intent to open the PersonDetailActivity
                     Intent intent = new Intent(v.getContext(), PersonDetailActivity.class);
-                    intent.putExtra("PERSON_ID", personId); // Add the person's id to the intent
+                    intent.putExtra("id", person.getId());
+                    intent.putExtra("name", person.getName());
+                    intent.putExtra("birthdate", person.getBirthdate());
+                    intent.putExtra("phoneNumber", person.getPhoneNumber());
 
+                    // Start the activity
                     v.getContext().startActivity(intent);
                 }
             });

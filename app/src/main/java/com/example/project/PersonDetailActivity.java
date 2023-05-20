@@ -13,30 +13,48 @@ import com.example.project.EditPersonFragment;
 
 public class PersonDetailActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_detail);
 
-        // Get the Person's id from the Intent's extras
-        final int personId = getIntent().getIntExtra("PERSON_ID", -1);
+        // Get the Person's data from the Intent's extras
+        final int personId = getIntent().getIntExtra("id", -1);
+        String name = getIntent().getStringExtra("name");
+        String birthdate = getIntent().getStringExtra("birthdate");
+        String phoneNumber = getIntent().getStringExtra("phoneNumber");
 
-        // Use this id to get the Person's details and display them
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        Person person = databaseHelper.getPersonById(personId);
         // Display the Person's details
+        EditText nameView = findViewById(R.id.editName);
+        EditText birthdateView = findViewById(R.id.editBirthdate);
+        EditText phoneNumberView = findViewById(R.id.editPhoneNumber);
+
+        nameView.setText(name);
+        birthdateView.setText(birthdate);
+        phoneNumberView.setText(phoneNumber);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         Button buttonSave = findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get the updated details from the EditText views
-                String name = ((EditText) findViewById(R.id.editName)).getText().toString();
-                String birthdate = ((EditText) findViewById(R.id.editBirthdate)).getText().toString();
-                String phoneNumber = ((EditText) findViewById(R.id.editPhoneNumber)).getText().toString();
+                String updatedName = ((EditText) findViewById(R.id.editName)).getText().toString();
+                String updatedBirthdate = ((EditText) findViewById(R.id.editBirthdate)).getText().toString();
+                String updatedPhoneNumber = ((EditText) findViewById(R.id.editPhoneNumber)).getText().toString();
 
                 // Use these details to update the Person
-                databaseHelper.updatePerson(personId, name, birthdate, phoneNumber);
+                databaseHelper.updatePerson(personId, updatedName, updatedBirthdate, updatedPhoneNumber);
+
+                // Restart the activity with updated person's details
+                Intent intent = new Intent(PersonDetailActivity.this, MainActivity.class);
+                intent.putExtra("PERSON_ID", personId);
+
+                // Finish current instance of activity and start new one
+                finish();
+                startActivity(intent);
             }
         });
 
@@ -46,7 +64,13 @@ public class PersonDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Delete the Person and finish the activity
                 databaseHelper.deletePerson(personId);
+                // Restart the activity with updated person's details
+                Intent intent = new Intent(PersonDetailActivity.this, MainActivity.class);
+                intent.putExtra("PERSON_ID", personId);
+
+                // Finish current instance of activity and start new one
                 finish();
+                startActivity(intent);
             }
         });
     }
