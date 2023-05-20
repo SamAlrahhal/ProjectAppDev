@@ -17,6 +17,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_BIRTHDATE = "birthdate";
     public static final String COLUMN_PHONE_NUMBER = "phoneNumber";
+
+    public static final String COLUMN_ID = "ID";
     public static final int DATABASE_VERSION = 3;
 
     public DatabaseHelper(Context context) {
@@ -26,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT NOT NULL," +
                 COLUMN_BIRTHDATE + " TEXT NOT NULL," +
                 COLUMN_PHONE_NUMBER + " TEXT NOT NULL" +
@@ -64,47 +66,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") Person person = new Person(
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_BIRTHDATE)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_PHONE_NUMBER))
-                );
-                personList.add(person);
+                int id = cursor.getInt(cursor.getColumnIndex("ID"));
+                String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                String birthdate = cursor.getString(cursor.getColumnIndex(COLUMN_BIRTHDATE));
+                String phoneNumber = cursor.getString(cursor.getColumnIndex(COLUMN_PHONE_NUMBER));
+                personList.add(new Person(id, name, birthdate, phoneNumber));
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         return personList;
     }
+
     public Person getPersonById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(
-                TABLE_NAME,  // The table to query
-                new String[] { COLUMN_NAME, COLUMN_BIRTHDATE, COLUMN_PHONE_NUMBER }, // The columns to return
-                // Assuming you have a column "ID" for where clause
-                "ID = ?",    // The columns for the WHERE clause
-                new String[] { String.valueOf(id) },   // The values for the WHERE clause
-                null,   // don't group the rows
-                null,   // don't filter by row groups
-                null    // The sort order
+                TABLE_NAME,
+                new String[] { "ID", COLUMN_NAME, COLUMN_BIRTHDATE, COLUMN_PHONE_NUMBER },
+                "ID = ?",
+                new String[] { String.valueOf(id) },
+                null,
+                null,
+                null
         );
 
         if (cursor != null)
             cursor.moveToFirst();
 
         if (cursor.getCount() > 0) {
+            int personId = cursor.getInt(cursor.getColumnIndex("ID"));
             String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
             String birthdate = cursor.getString(cursor.getColumnIndex(COLUMN_BIRTHDATE));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(COLUMN_PHONE_NUMBER));
 
             cursor.close();
-            return new Person(name, birthdate, phoneNumber);
+            return new Person(personId, name, birthdate, phoneNumber);
         } else {
             cursor.close();
             return null;
         }
     }
+
 
     public boolean updatePerson(int id, String name, String birthdate, String phoneNumber) {
         SQLiteDatabase db = this.getWritableDatabase();

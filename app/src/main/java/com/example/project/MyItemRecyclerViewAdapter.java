@@ -25,6 +25,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Person person = mValues.get(position);
+        holder.itemView.setTag(person.getId()); // Add this line
         holder.mNameView.setText(person.getName());
         holder.mBirthdateView.setText(person.getBirthdate());
         holder.mPhoneNumberView.setText(person.getPhoneNumber());
@@ -48,19 +49,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Get the position of the clicked item
-                    int position = getAdapterPosition();
+                    int personId = (int) v.getTag(); // Get the id from the tag
 
-                    // Get the Person at the clicked position
-                    Person person = mValues.get(position);
-
-                    // Create an Intent to open the PersonDetailActivity
                     Intent intent = new Intent(v.getContext(), PersonDetailActivity.class);
+                    intent.putExtra("PERSON_ID", personId); // Add the person's id to the intent
 
-                    // Pass the id of the person as an extra. This assumes that Person has a getName method.
-                    intent.putExtra("PERSON_NAME", person.getName());
-
-                    // Start the activity
                     v.getContext().startActivity(intent);
                 }
             });
@@ -71,5 +64,4 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             return super.toString() + " '" + mNameView.getText() + "', '" + mBirthdateView.getText() + "', '" + mPhoneNumberView.getText() + "'";
         }
     }
-
 }

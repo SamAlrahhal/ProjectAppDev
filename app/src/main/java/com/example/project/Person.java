@@ -5,18 +5,22 @@ import android.database.Cursor;
 import java.util.List;
 
 public class Person {
+    private int id;
     private String name;
     private String birthdate;
     private String phoneNumber;
 
-    public Person(String name, String birthdate, String phoneNumber) {
+    // Constructor
+    public Person(int id, String name, String birthdate, String phoneNumber) {
+        this.id = id;
         this.name = name;
         this.birthdate = birthdate;
         this.phoneNumber = phoneNumber;
     }
 
-    public static List<Person> fromCursor(Cursor cursor) {
-        return null;
+    // Getters
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -30,4 +34,22 @@ public class Person {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
+
+

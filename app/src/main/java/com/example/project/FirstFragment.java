@@ -76,10 +76,11 @@ public class FirstFragment extends Fragment {
 
         ArrayList<Person> todayBirthdays = new ArrayList<>();
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
             String birthdate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BIRTHDATE));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PHONE_NUMBER));
-            todayBirthdays.add(new Person(name, birthdate, phoneNumber));
+            todayBirthdays.add(new Person(id, name, birthdate, phoneNumber));
         }
         cursor.close();
 
@@ -97,22 +98,18 @@ public class FirstFragment extends Fragment {
 
         ArrayList<Person> weekBirthdays = new ArrayList<>();
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
             String birthdate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BIRTHDATE));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PHONE_NUMBER));
-            weekBirthdays.add(new Person(name, birthdate, phoneNumber));
+            weekBirthdays.add(new Person(id, name, birthdate, phoneNumber));
         }
         cursor.close();
+
         RecyclerView weekRecyclerView = binding.weekBirthdays.birthdayList;
         weekRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         PersonAdapter weekAdapter = new PersonAdapter(weekBirthdays);
         weekRecyclerView.setAdapter(weekAdapter);
-        
-
-
-
-
-
 
         // Query to get this month's birthdays
         query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
@@ -123,23 +120,18 @@ public class FirstFragment extends Fragment {
 
         ArrayList<Person> monthBirthdays = new ArrayList<>();
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
             String birthdate = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BIRTHDATE));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PHONE_NUMBER));
-            monthBirthdays.add(new Person(name, birthdate, phoneNumber));
+            monthBirthdays.add(new Person(id, name, birthdate, phoneNumber));
         }
         cursor.close();
+
         RecyclerView monthRecyclerView = binding.monthBirthdays.birthdayList;
         monthRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         PersonAdapter monthAdapter = new PersonAdapter(monthBirthdays);
         monthRecyclerView.setAdapter(monthAdapter);
-
-
-
-
-
-
-
 
 
     }
