@@ -111,11 +111,10 @@ public class FirstFragment extends Fragment {
         PersonAdapter weekAdapter = new PersonAdapter(weekBirthdays);
         weekRecyclerView.setAdapter(weekAdapter);
 
-        // Query to get this month's birthdays
         query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
                 " WHERE strftime('%m', " + DatabaseHelper.COLUMN_BIRTHDATE + ") = '" + currentMonth + "' AND " +
-                "(strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") > strftime('%m-%d', '" + currentDatePlusWeek + "') OR " +
-                "strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") < strftime('%m-%d', '" + currentDate + "'))";
+                "strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") > strftime('%m-%d', '" + currentDatePlusWeek + "') AND " +
+                "strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") != strftime('%m-%d', '" + currentDate + "')";
         cursor = database.rawQuery(query, null);
 
         ArrayList<Person> monthBirthdays = new ArrayList<>();

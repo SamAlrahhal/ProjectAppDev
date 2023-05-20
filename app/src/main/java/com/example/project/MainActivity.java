@@ -36,13 +36,6 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-/*        binding.fab.setonclicklistener(new view.onclicklistener() {
-            @override
-            public void onclick(view view) {
-                snackbar.make(view, "replace with your own action", snackbar.length_long)
-                        .setaction("action", null).show();
-            }
-        }); */
     }
 
     @Override
@@ -56,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
