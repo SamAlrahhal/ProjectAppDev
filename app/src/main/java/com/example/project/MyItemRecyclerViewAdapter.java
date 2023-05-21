@@ -29,6 +29,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.mNameView.setText(person.getName());
         holder.mBirthdateView.setText(person.getBirthdate());
         holder.mPhoneNumberView.setText(person.getPhoneNumber());
+        holder.mEdit.setText("Click to edit");
     }
 
     @Override
@@ -40,12 +41,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final TextView mNameView;
         public final TextView mBirthdateView;
         public final TextView mPhoneNumberView;
+        public final TextView mEdit;
 
         public ViewHolder(FragmentShowAllListBinding binding) {
             super(binding.getRoot());
             mNameView = binding.textViewName;
             mBirthdateView = binding.textViewBirthdate;
             mPhoneNumberView = binding.textViewPhoneNumber;
+            mEdit = binding.textEdit;
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
