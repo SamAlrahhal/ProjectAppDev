@@ -69,11 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.action_FirstFragment_to_addPerson2);
                 getSupportActionBar().setTitle("Add Person");
 
-            } else if (navController.getCurrentDestination().getId() == R.id.SecondFragment) {
-                navController.navigate(R.id.action_SecondFragment_to_addPerson2);
-                getSupportActionBar().setTitle("Add Person");
-
-
             }else if(navController.getCurrentDestination().getId() == R.id.showAll2){
                 navController.navigate(R.id.action_showAll2_to_addPerson2);
                 getSupportActionBar().setTitle("Add Person");
@@ -91,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.action_FirstFragment_to_showAll2);
                 getSupportActionBar().setTitle("Show All");
 
-            } else if (navController.getCurrentDestination().getId() == R.id.SecondFragment) {
-                navController.navigate(R.id.action_SecondFragment_to_showAll2);
-                getSupportActionBar().setTitle("Show All");
             }else if(navController.getCurrentDestination().getId() == R.id.addPerson2){
                 navController.navigate(R.id.action_addPerson2_to_showAll2);
                 getSupportActionBar().setTitle("Show All");
