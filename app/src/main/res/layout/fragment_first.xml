@@ -3,14 +3,16 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="#006064"
               android:padding="16dp">
+
 
     <TextView
             android:id="@+id/textToday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Birthdays today"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="#B2EBF2"
             android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:gravity="center_horizontal"
@@ -22,12 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+
     <TextView
             android:id="@+id/textWeek"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This week's birthdays"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="#B2EBF2"
             android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:gravity="center_horizontal"
@@ -45,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Birthdays later this month"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="#B2EBF2"
             android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:gravity="center_horizontal"

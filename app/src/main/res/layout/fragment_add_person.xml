@@ -4,10 +4,12 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
+        android:background="#006064"
                                                    tools:context=".AddPersonFragment">
 
     <EditText
             android:id="@+id/editTextName"
+            android:background="#B2EBF2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -18,6 +20,7 @@
 
     <EditText
             android:id="@+id/editTextBirthdate"
+            android:background="#B2EBF2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -28,6 +31,7 @@
 
     <EditText
             android:id="@+id/editTextPhoneNumber"
+            android:background="#B2EBF2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -38,11 +42,13 @@
 
     <Button
             android:id="@+id/buttonAddPerson"
+            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Person"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" android:background="#00B8D4"
+            android:backgroundTint="#00B8D4"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

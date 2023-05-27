@@ -3,6 +3,7 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
+
                                                    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/fragment_show_all_list" />
+            tools:listitem="@layout/fragment_show_all_list" android:background="#0097A7"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
