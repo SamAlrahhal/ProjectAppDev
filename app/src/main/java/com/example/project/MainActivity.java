@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.fragment.NavHostFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -18,7 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.example.project.FirstFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+    private FloatingActionButton fab;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
     }
 
@@ -105,5 +110,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                System.out.println("fab wroks");
+                //go to add person page using nav controller
+                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
+                if (navController.getCurrentDestination().getId() == R.id.FirstFragment) {
+                    navController.navigate(R.id.action_FirstFragment_to_addPerson2);
+                    getSupportActionBar().setTitle("Add Person");
+
+                }else if(navController.getCurrentDestination().getId() == R.id.showAll2){
+                    navController.navigate(R.id.action_showAll2_to_addPerson2);
+                    getSupportActionBar().setTitle("Add Person");
+
+                }
+                break;
+        }
     }
 }
