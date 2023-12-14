@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                System.out.println("fab wroks");
                 //go to add person page using nav controller
                 NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
