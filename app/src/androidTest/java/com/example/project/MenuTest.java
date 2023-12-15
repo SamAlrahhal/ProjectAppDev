@@ -9,29 +9,27 @@ import org.junit.Test;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
-import android.util.Log;
-
 @RunWith(AndroidJUnit4.class)
-public class ShowAllTest {
+public class MenuTest {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void show_all_ui_check() {
+    public void menu_bar_check() {
         // Click on the add person button
         // Check that the add person button is displayed
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
         onView(withText("Show all")).perform(click());
 
-        // Check that the show all button is displayed
-        onView(withText("Show all")).check(matches(withText("Show all")));
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        onView(withText("Add Person")).perform(click());
 
-
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        onView(withText("Home")).perform(click());
 
 
 
