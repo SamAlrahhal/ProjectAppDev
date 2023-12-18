@@ -8,4 +8,7 @@
     />
     <item android:title="Add Person" android:orderInCategory="101" android:id="@+id/addPerson"/>
     <item android:title="Show all" android:orderInCategory="102" android:id="@+id/showAll"/>
+
+
+
 </menu>
