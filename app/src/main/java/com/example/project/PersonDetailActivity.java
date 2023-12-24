@@ -1,6 +1,9 @@
 package com.example.project;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
@@ -10,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project.EditPersonFragment;
+
+import static com.google.android.material.internal.ContextUtils.getActivity;
 
 public class PersonDetailActivity extends AppCompatActivity {
     private MyContentProvider myContentProvider;
@@ -48,7 +53,15 @@ public class PersonDetailActivity extends AppCompatActivity {
                 String updatedPhoneNumber = ((EditText) findViewById(R.id.editPhoneNumber)).getText().toString();
 
                 // Use these details to update the Person
-                databaseHelper.updatePerson(personId, updatedName, updatedBirthdate, updatedPhoneNumber);
+                ContentValues values = new ContentValues();
+                values.put(DatabaseHelper.COLUMN_NAME, updatedName);
+                values.put(DatabaseHelper.COLUMN_BIRTHDATE, updatedBirthdate);
+                values.put(DatabaseHelper.COLUMN_PHONE_NUMBER, updatedPhoneNumber);
+
+                String selection = DatabaseHelper.COLUMN_ID + "=?";
+                String[] selectionArgs = {String.valueOf(personId)};
+
+                getContentResolver().update(MyContentProvider.CONTENT_URI, values, selection, selectionArgs);
 
                 // Restart the activity with updated person's details
                 Intent intent = new Intent(PersonDetailActivity.this, MainActivity.class);
@@ -67,7 +80,7 @@ public class PersonDetailActivity extends AppCompatActivity {
                 // Delete the Person and finish the activity
                 //databaseHelper.deletePerson(personId);
                 String[] selectionArgs = {String.valueOf(personId)};
-                getContentResolver().delete(myContentProvider.CONTENT_URI, DatabaseHelper.COLUMN_ID + "=?", selectionArgs);
+                getContentResolver().delete(MyContentProvider.CONTENT_URI, DatabaseHelper.COLUMN_ID + "=?", selectionArgs);
                 // Restart the activity with updated person's details
                 Intent intent = new Intent(PersonDetailActivity.this, MainActivity.class);
                 intent.putExtra("PERSON_ID", personId);

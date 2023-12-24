@@ -15,12 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.Date;
 
 
 public class AddPerson extends Fragment {
 
-    private DatabaseHelper databaseHelper;
     private EditText editTextName, editTextBirthdate, editTextPhoneNumber;
     private Button buttonAddPerson;
 
@@ -32,7 +30,6 @@ public class AddPerson extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_person, container, false);
 
 
-        databaseHelper = new DatabaseHelper(getActivity());
         editTextName = view.findViewById(R.id.editTextName);
         editTextBirthdate = view.findViewById(R.id.editTextBirthdate);
         editTextPhoneNumber = view.findViewById(R.id.editTextPhoneNumber);
@@ -50,13 +47,8 @@ public class AddPerson extends Fragment {
             } else if (!isNumeric(phoneNumber)) {
                 Toast.makeText(getActivity(), "Phone number can only contain digits", Toast.LENGTH_SHORT).show();
             } else {
-                //if everything is filled out correctly
-              // boolean result = databaseHelper.addPerson(name, birthdate, phoneNumber);
-
-// Get the ContentResolver
                 ContentResolver resolver = getActivity().getContentResolver();
 
-// Insert the data
                 ContentValues values = new ContentValues();
                 values.put(DatabaseHelper.COLUMN_NAME, name);
                 values.put(DatabaseHelper.COLUMN_BIRTHDATE, birthdate);
@@ -64,13 +56,11 @@ public class AddPerson extends Fragment {
 
                 Uri result = resolver.insert(MyContentProvider.CONTENT_URI, values);
 
-
                 if (result != null) {
                     //check how big the screen is
                     if (isScreen600dp(getActivity())) {
                         //if its a tablet, navigate to home
                         Toast.makeText(getActivity(), "Person added successfully", Toast.LENGTH_SHORT).show();
-
                         Intent i = new Intent(getActivity(), MainActivity.class);
                         startActivity(i);
 
