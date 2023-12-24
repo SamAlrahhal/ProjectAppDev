@@ -1,7 +1,7 @@
 package com.example.project;
 
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.Date;
 
 
 public class AddPerson extends Fragment {
@@ -22,6 +23,8 @@ public class AddPerson extends Fragment {
     private DatabaseHelper databaseHelper;
     private EditText editTextName, editTextBirthdate, editTextPhoneNumber;
     private Button buttonAddPerson;
+
+    private MyContentProvider myContentProvider;
 
     @Nullable
     @Override
@@ -48,15 +51,25 @@ public class AddPerson extends Fragment {
                 Toast.makeText(getActivity(), "Phone number can only contain digits", Toast.LENGTH_SHORT).show();
             } else {
                 //if everything is filled out correctly
-                boolean result = databaseHelper.addPerson(name, birthdate, phoneNumber);
-                if (result) {
+              // boolean result = databaseHelper.addPerson(name, birthdate, phoneNumber);
+
+// Get the ContentResolver
+                ContentResolver resolver = getActivity().getContentResolver();
+
+// Insert the data
+                ContentValues values = new ContentValues();
+                values.put(DatabaseHelper.COLUMN_NAME, name);
+                values.put(DatabaseHelper.COLUMN_BIRTHDATE, birthdate);
+                values.put(DatabaseHelper.COLUMN_PHONE_NUMBER, phoneNumber);
+
+                Uri result = resolver.insert(MyContentProvider.CONTENT_URI, values);
+
+
+                if (result != null) {
                     //check how big the screen is
                     if (isScreen600dp(getActivity())) {
                         //if its a tablet, navigate to home
                         Toast.makeText(getActivity(), "Person added successfully", Toast.LENGTH_SHORT).show();
-                        editTextName.setText("");
-                        editTextBirthdate.setText("");
-                        editTextPhoneNumber.setText("");
 
                         Intent i = new Intent(getActivity(), MainActivity.class);
                         startActivity(i);

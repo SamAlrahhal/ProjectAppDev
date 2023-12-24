@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.project.EditPersonFragment;
 
 public class PersonDetailActivity extends AppCompatActivity {
+    private MyContentProvider myContentProvider;
+
 
 
     @Override
@@ -63,7 +65,9 @@ public class PersonDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Delete the Person and finish the activity
-                databaseHelper.deletePerson(personId);
+                //databaseHelper.deletePerson(personId);
+                String[] selectionArgs = {String.valueOf(personId)};
+                getContentResolver().delete(myContentProvider.CONTENT_URI, DatabaseHelper.COLUMN_ID + "=?", selectionArgs);
                 // Restart the activity with updated person's details
                 Intent intent = new Intent(PersonDetailActivity.this, MainActivity.class);
                 intent.putExtra("PERSON_ID", personId);
