@@ -1,6 +1,9 @@
 package com.example.project;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +47,26 @@ public class AddPerson extends Fragment {
             } else if (!isNumeric(phoneNumber)) {
                 Toast.makeText(getActivity(), "Phone number can only contain digits", Toast.LENGTH_SHORT).show();
             } else {
+                //if everything is filled out correctly
                 boolean result = databaseHelper.addPerson(name, birthdate, phoneNumber);
                 if (result) {
-                    Toast.makeText(getActivity(), "Person added successfully", Toast.LENGTH_SHORT).show();
-                    editTextName.setText("");
-                    editTextBirthdate.setText("");
-                    editTextPhoneNumber.setText("");
+                    //check how big the screen is
+                    if (isScreen600dp(getActivity())) {
+                        //if its a tablet, navigate to home
+                        Toast.makeText(getActivity(), "Person added successfully", Toast.LENGTH_SHORT).show();
+                        editTextName.setText("");
+                        editTextBirthdate.setText("");
+                        editTextPhoneNumber.setText("");
+
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        startActivity(i);
+
+                    }else {
+                        Toast.makeText(getActivity(), "Person added successfully", Toast.LENGTH_SHORT).show();
+                        editTextName.setText("");
+                        editTextBirthdate.setText("");
+                        editTextPhoneNumber.setText("");
+                    }
                 } else {
                     Toast.makeText(getActivity(), "Error adding person", Toast.LENGTH_SHORT).show();
                 }
@@ -57,6 +74,14 @@ public class AddPerson extends Fragment {
         });
 
         return view;
+    }
+
+    //check if its a tablet
+    private boolean isScreen600dp(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return dpWidth >= 600 || dpHeight >= 600;
     }
 
     private boolean isValidDate(String date) {
