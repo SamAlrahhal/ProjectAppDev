@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,12 +27,38 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+
 
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private SQLiteDatabase database;
+    private ArrayList<Person> todayBirthdays;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                // Permission is granted. Send the notification.
+                sendBirthdayNotification(todayBirthdays);
+            } else {
+                // Permission denied. Handle the case.
+            }
+        });
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentFirstBinding.inflate(inflater, container, false);
@@ -66,12 +95,10 @@ public class FirstFragment extends Fragment {
         String currentMonth = new SimpleDateFormat("MM").format(new Date());
 
 
-
         // Query to get today's birthdays
         String query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
                 " WHERE strftime('%m-%d', " + DatabaseHelper.COLUMN_BIRTHDATE + ") = strftime('%m-%d', '" + currentDate + "')";
         Cursor cursor = database.rawQuery(query, null);
-
 
 
         ArrayList<Person> todayBirthdays = new ArrayList<>();
@@ -89,6 +116,9 @@ public class FirstFragment extends Fragment {
         PersonAdapter todayAdapter = new PersonAdapter(todayBirthdays);
         todayRecyclerView.setAdapter(todayAdapter);
 
+        if (!todayBirthdays.isEmpty()) {
+            sendBirthdayNotification(todayBirthdays);
+        }
 
 
         // Query to get this week's birthdays
@@ -133,5 +163,59 @@ public class FirstFragment extends Fragment {
         monthRecyclerView.setAdapter(monthAdapter);
 
 
+    }
+
+    private void sendBirthdayNotification(ArrayList<Person> todayBirthdays) {
+        // Create a notification channel (required for Android 8.0 and above)
+        createNotificationChannel();
+
+        // Build the notification content
+        StringBuilder birthdayNames = new StringBuilder();
+        for (Person person : todayBirthdays) {
+            birthdayNames.append(person.getName()).append(", ");
+        }
+        // Remove the trailing comma and space
+        if (birthdayNames.length() > 2) {
+            birthdayNames.setLength(birthdayNames.length() - 2);
+        }
+
+        String notificationTitle = "Today's Birthdays";
+        String notificationText = "Don't forget to wish: " + birthdayNames.toString();
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), "BIRTHDAY_CHANNEL_ID")
+                .setSmallIcon(R.drawable.cake) // Replace with your app's icon
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationText)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        // Check and request the POST_NOTIFICATIONS permission
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // Request the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+                return;
+            }
+        }
+
+        // Display the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
+        notificationManager.notify(1001, builder.build());
+    }
+
+    private void createNotificationChannel() {
+        // Notification channels are required for Android 8.0 (API level 26) and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            CharSequence name = "Birthday Notifications";
+            String description = "Notifications for today's birthdays";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("BIRTHDAY_CHANNEL_ID", name, importance);
+            channel.setDescription(description);
+
+            // Register the channel with the system
+            NotificationManager notificationManager = requireContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
