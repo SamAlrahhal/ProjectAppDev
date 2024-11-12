@@ -1,7 +1,10 @@
 package com.example.project;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavHostController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -18,10 +21,15 @@ import com.example.project.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.example.project.FirstFragment;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
     private FloatingActionButton fab;
-
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
@@ -41,6 +49,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
+        startBirthdayReminderCheck();
+        createNotificationChannel();
+    }
+
+    private void startBirthdayReminderCheck() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, BirthdayReminderReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Set the alarm to trigger every 24 hours
+        long intervalMillis = AlarmManager.INTERVAL_DAY;
+        long triggerAtMillis = SystemClock.elapsedRealtime() + intervalMillis;
+        if (alarmManager != null) {
+            Log.d("MainActivity", "Setting alarm for birthday reminder check");
+            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtMillis, intervalMillis, pendingIntent);
+        }
     }
 
     @Override
@@ -117,19 +141,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                //go to add person page using nav controller
                 NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-
                 if (navController.getCurrentDestination().getId() == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_addPerson2);
                     getSupportActionBar().setTitle("Add Person");
-
-                }else if(navController.getCurrentDestination().getId() == R.id.showAll2){
+                } else if (navController.getCurrentDestination().getId() == R.id.showAll2) {
                     navController.navigate(R.id.action_showAll2_to_addPerson2);
                     getSupportActionBar().setTitle("Add Person");
-
                 }
                 break;
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            CharSequence name = "Birthday Notifications";
+            String description = "Notifications for today's birthdays";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("BIRTHDAY_CHANNEL_ID", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
 }
